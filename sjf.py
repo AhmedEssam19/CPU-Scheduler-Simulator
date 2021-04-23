@@ -22,10 +22,7 @@ def schedule_non_preemptive(processes):
     temp = processes.copy()
     # current time
     time = 0
-    final_data = [Process(processes[0][0], processes[0][1], processes[0][1] + processes[0][2], processes[0][1])]
-    burst = processes[0][2]
-    time += burst
-    temp.remove(processes[0])
+    final_data = []
 
     # sorting according to burst time
     temp.sort(key=lambda x: x[2])
@@ -81,5 +78,5 @@ n = int(input("Enter the number of processes: "))
 arr = input_processes(no_of_processes=n)
 arr1 = schedule_non_preemptive(arr)
 display(arr1)
-avg_waiting_time(arr1)
+print(avg_waiting_time(arr1))
 
