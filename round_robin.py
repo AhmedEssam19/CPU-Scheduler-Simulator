@@ -14,7 +14,7 @@ def round_robin(processes, quantam_time):
     while True:
         is_processes_finished = True
         for process in processes:
-            if process[2] > 0:
+            if process[2] > 0 and current_time >= process[1]:
                 is_processes_finished = False
                 start_time.append(current_time)
 
@@ -40,7 +40,7 @@ def round_robin(processes, quantam_time):
 
 # tasks = [
 #     ['Task1', 0, 24],
-#     ['Task2', 1, 3],
-#     ['Task3', 2, 3],
+#     ['Task2', 5, 3],
+#     ['Task3', 9, 3],
 # ]
 # print(round_robin(tasks, 4))
