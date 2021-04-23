@@ -10,6 +10,32 @@ def process_data(no_of_processes):
     return processes
 
 
+def display(processes_id, starting_time, finish_time):
+    dictionary = {}
+    for i in range(len(processes_id)):
+        dictionary[f"Process {processes_id[i]} "] = [f"start time: {starting_time[i]}",
+                                                     f"finish time: {finish_time[i]}"]
+
+    return dictionary
+
+
+def schedule(processes):
+    dictionary = {}
+    temp = processes.copy()
+    time = 0
+    burst = 0
+    starting_time = []
+    finish_time = []
+    for i in range(len(temp)):
+        if time == 0:
+            burst = processes[i][2]
+
+            time += burst
+
+
+
+        
+#
 # def schedule(processes):
 #     dictionary = {}
 #     time = 0
