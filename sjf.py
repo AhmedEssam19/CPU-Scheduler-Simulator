@@ -1,7 +1,11 @@
-def process_data(no_of_processes):
+# importing for the tuple
+from collections import namedtuple
+
+# taking the input
+def input_processes(no_of_processes):
     processes = []
     for i in range(no_of_processes):
-        process_id= int(input("Enter process ID: "))
+        process_id = int(input("Enter process ID: "))
         arrival = int(input(f"Input the arrival time of process {process_id}: "))
         burst = int(input(f"input the burst time of process {process_id}:  "))
         processes.append([process_id, arrival, burst])
@@ -10,55 +14,42 @@ def process_data(no_of_processes):
     return processes
 
 
-def display(processes_id, starting_time, finish_time):
-    dictionary = {}
-    for i in range(len(processes_id)):
-        dictionary[f"Process {processes_id[i]} "] = [f"start time: {starting_time[i]}",
-                                                     f"finish time: {finish_time[i]}"]
-
-    return dictionary
-
-
-def schedule(processes):
-    dictionary = {}
+def schedule_non_preemptive(processes):
+    # tuple for the final processes in the desired format
+    Process = namedtuple('Process', 'process_id starting_time finish_time')
+    # temporary list of lists to schedule the process according to their burst time except the first one
     temp = processes.copy()
+    # current time
     time = 0
-    burst = 0
-    starting_time = []
-    finish_time = []
-    for i in range(len(temp)):
+    final_data = []
+    for item in range(len(temp)):
+        burst = processes[item][2]
+        # first process
         if time == 0:
-            burst = processes[i][2]
+            final_data.append(Process(processes[item][0], time, time + burst))
+            time += burst
+            temp.remove(processes[item])
+            # sorting according to burst time
+            temp.sort(key=lambda x: x[2])
 
+        else:
+            # schedule the other processes except the first one according to their burst time
+            final_data.append(Process(temp[item-1][0], time, time+burst))
             time += burst
 
+    return final_data
 
 
-        
-#
-# def schedule(processes):
-#     dictionary = {}
-#     time = 0
-#     burst = 0
-#     rem_time = 0
-#     start_time = []
-#     waiting_time = []
-#     finish_time = []
-#     for i in range(len(processes)):
-#         # push first process to cpu
-#         if processes[i][1] == 0:
-#             start_time[processes[i][0]] = time
-#             dictionary[f"process {processes[i][0]} "] = [f"Start time ", processes[i][1], processes[i][2]]
-#             burst = processes[i][2]
-#         #elif processes[i][2] < burst:
-#
-#
-#
+def display(data):
+    for i in range(len(data)):
+        print(data[i])
 
-arr = process_data(2)
-print(len(arr))
-# dictionary = {}
-# for i in range(len(arr)):
-#     dictionary[f"item: {i}"] = [arr[i][0], arr[i][1], arr[i][2]]
-#
-# print(dictionary)
+
+# main
+n = int(input("Enter the number of processes: "))
+display(schedule_non_preemptive(input_processes(no_of_processes=n)))
+
+
+
+
+
