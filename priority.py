@@ -3,19 +3,12 @@ from collections import namedtuple
 import pandas as pd
 
 
-# taking the input
-def input_processes(no_of_processes):
-    processes = []
-    for i in range(no_of_processes):
-        process_id = int(input("Enter process ID: "))
-        arrival = int(input(f"Input the arrival time of process {process_id}: "))
-        burst = int(input(f"input the burst time of process {process_id}:  "))
-        priority = int(input(f"input the priority of process {process_id}:  "))
-
-        processes.append([process_id, arrival, burst, priority])
-    # sorting according to arrival time
-    processes.sort(key=lambda x: x[1])
-    return processes
+def Priority_Scheduling(processes, preemptive):
+    if preemptive:
+        Data = Priority_P(processes)
+    elif not preemptive:
+        Data = schedule_non_preemptive(processes)
+    return Data
 
 
 ################# PREEMPTIVE ######################
@@ -74,12 +67,12 @@ def Priority_P(processes):
     for i in range(len(All_Times) - 1):
         if All_Process[i] != All_Process[i + 1]:
             end = All_Times[i] + 1
-            #schedule.append(Process(All_Process[i], start, end))
+            # schedule.append(Process(All_Process[i], start, end))
             task_names.append(All_Process[i])
             start_times.append(start)
             finish_times.append(end)
             start = All_Times[i + 1]
-    #schedule.append(Process(All_Process[i], start, All_Times[len(All_Times) - 1] + 1))
+    # schedule.append(Process(All_Process[i], start, All_Times[len(All_Times) - 1] + 1))
     task_names.append(All_Process[i])
     start_times.append(start)
     finish_times.append(All_Times[len(All_Times) - 1] + 1)
@@ -159,15 +152,6 @@ def display(data):
         dictionary[f"Start time "] = getattr(data[i], "starting_time")
         dictionary[f"Finish time "] = getattr(data[i], "finish_time")
         print(dictionary)
-
-
-
-def Priority_Scheduling(processes, preemptive):
-    if preemptive:
-        Data = Priority_P(processes)
-    elif not preemptive:
-        Data = schedule_non_preemptive(processes)
-    return Data
 
 
 
