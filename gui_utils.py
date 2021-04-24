@@ -2,6 +2,8 @@ import tkinter as tk
 
 from collections import namedtuple
 from fcfs import first_come_first_served
+from SJF import Decide_Short_job
+from priority import Priority_Scheduling
 from GanttChart import plot_schedule
 
 Process = namedtuple('Process', 'task_name arrival_time burst_time priority')
@@ -98,11 +100,11 @@ def simulate(state, algorithms_combobox, quantum_input, root):
         time_intervals, avg_wait_time = first_come_first_served(processes)
 
     elif algorithm == 'SJF':
-        time_intervals, avg_wait_time = first_come_first_served(processes)
+        time_intervals, avg_wait_time = Decide_Short_job(processes, state['isPreemptive'])
 
     elif algorithm == 'Priority':
-        time_intervals, avg_wait_time = first_come_first_served(processes)
+        time_intervals, avg_wait_time = Priority_Scheduling(processes, state['isPreemptive'])
 
     else:
-        time_intervals, avg_wait_time = first_come_first_served(processes, quantum_time)
+        time_intervals, avg_wait_time = first_come_first_served(processes)
     plot_schedule(time_intervals)
