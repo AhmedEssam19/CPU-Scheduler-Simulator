@@ -16,7 +16,6 @@ state = {
 def main():
     root = tk.Tk()
     root.geometry("1450x600")
-    root.configure(bg='#2c313c')
 
     # Make the main frame
     main_frame = Frame(root, bg=state['BACKGROUND_COLOR'])
@@ -68,6 +67,15 @@ def main():
     add_process_button = tk.Button(main_frame, text="Add Process",
                                    command=lambda: add_process(inner_frame, state, algorithm_input), state='disable')
     add_process_button.place(rely=0.71, relx=0.84, relwidth=0.15, relheight=0.1)
+
+    # Cancel Button
+    cancel_button = tk.Button(main_frame, command=root.destroy, text="Cancel")
+    cancel_button.place(relx=0.81, rely=0.85, relwidth=0.2, relheight=0.12)
+
+    # simulate Button
+    simulate_button = tk.Button(main_frame, text="Simulate",
+                                command=lambda: simulate(state, algorithm_input, quantum_input, root))
+    simulate_button.place(relx=0.605, rely=0.85, relwidth=0.2, relheight=0.12)
 
     root.mainloop()
 

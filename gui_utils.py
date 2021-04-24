@@ -1,6 +1,8 @@
 import tkinter as tk
 
 from collections import namedtuple
+from fcfs import first_come_first_served
+from GanttChart import plot_schedule
 
 Process = namedtuple('Process', 'task_name arrival_time burst_time priority')
 
@@ -70,3 +72,37 @@ def clear_processes(state):
                 label.destroy()
 
     state['row'] = 0
+
+
+def simulate(state, algorithms_combobox, quantum_input, root):
+    try:
+        quantum_time = float(quantum_input.get())
+    except ValueError:
+        pass
+
+    processes = []
+    for process in state['processes']:
+        task_name = process.task_name.get()
+        arrival_time = float(process.arrival_time.get())
+        burst_time = float(process.burst_time.get())
+
+        process_element = [task_name, arrival_time, burst_time]
+        if process.priority is not None:
+            priority = float(process.priority.get())
+            process_element.append(priority)
+
+        processes.append(process_element)
+
+    algorithm = algorithms_combobox.get()
+    if algorithm == 'FCFS':
+        time_intervals, avg_wait_time = first_come_first_served(processes)
+
+    elif algorithm == 'SJF':
+        time_intervals, avg_wait_time = first_come_first_served(processes)
+
+    elif algorithm == 'Priority':
+        time_intervals, avg_wait_time = first_come_first_served(processes)
+
+    else:
+        time_intervals, avg_wait_time = first_come_first_served(processes, quantum_time)
+    plot_schedule(time_intervals)
