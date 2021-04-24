@@ -1,80 +1,67 @@
-import tkinter as tk
 from tkinter import ttk
 from tkinter import *
+from gui_utils import *
 
-BACKGROUND_COLOR = '#2c313c'
 ENTRY_FONT = ("TkDefaultFont", 10)
 ALGORITHMS = ['FCFS', 'SJF', 'Priority', 'Round Robin']
 
-root = tk.Tk()
-root.geometry('+%d+%d' % (350, 10))
-root.configure(bg='#2c313c')
-
-wrapper1 = LabelFrame(root)
-wrapper2 = LabelFrame(root)
-wrapper3 = LabelFrame(root)
-
-################################## Section1 ########################################
-canvas1 = tk.Canvas(wrapper1, width=800, height=60, bg=BACKGROUND_COLOR)
-canvas1.pack()
-
-section1_row = tk.Frame(wrapper1, bd=10, bg=BACKGROUND_COLOR)
-section1_row.place(relheight=1, relwidth=1)
-
-# choose the algorithm
-algorithm_label = tk.Label(section1_row, text='Choose Algorithm:', bg=BACKGROUND_COLOR, fg='white')
-algorithm_label.place(relx=0, rely=0, relheight=1, relwidth=0.2)
-algorithm_input = ttk.Combobox(section1_row, values=ALGORITHMS, justify="center", font=ENTRY_FONT, state="readonly")
-algorithm_input.bind("<<ComboboxSelected>>", None)
-algorithm_input.place(relx=0.2, rely=0.2, relwidth=0.15, relheight=0.6)
-
-# check if it's preemptive
-isPreemptive = tk.BooleanVar()
-preemptive_choice = tk.Checkbutton(section1_row, text='Preemptive', variable=isPreemptive, onvalue=True, offvalue=False)
-preemptive_choice.place(relx=0.4, rely=0, relheight=1, relwidth=0.15)
-
-# quantum time
-quantum_label = tk.Label(section1_row, text='Quantum Time:', bg=BACKGROUND_COLOR, fg='white')
-quantum_label.place(relx=0.6, rely=0, relheight=1, relwidth=0.2)
-quantum_input = tk.Entry(section1_row, borderwidth=4, justify="center", font=10, state="normal")
-quantum_input.place(relx=0.8, rely=0.0, relheight=1, relwidth=0.1)
-
-################################## Section2 ########################################
-canvas2 = tk.Canvas(wrapper2, width=800, height=300, bg=BACKGROUND_COLOR)
-canvas2.pack(fill="y")
-
-section2_column = tk.Frame(wrapper2, bd=10, bg=BACKGROUND_COLOR)
-section2_column.place(relheight=1, relwidth=1)
-
-#Add Process Botton
-add_process_button = tk.Button(section2_column, text="Add Process")
-add_process_button.place(rely=0.87, relx=0.4, relwidth=0.2, relheight=0.16)
-
-##Scrollbar
-y_scrollbar = ttk.Scrollbar(section2_column, orient="vertical", command=canvas2.yview)
-y_scrollbar.place(relx=1, relwidth=0.8, relheight=0.75)
-
-################################## Section3 ########################################
-canvas3 = tk.Canvas(wrapper3, width=800, height=240, bg=BACKGROUND_COLOR)
-canvas3.pack(fill="x")
+state = {
+    'row': 0,
+    'BACKGROUND_COLOR': '#2c313c'
+}
 
 
-#simulate & Cancle Row
-section3_row = tk.Frame(wrapper3, bd=10, bg=BACKGROUND_COLOR)
-section3_row.place(rely=0.8, relheight=0.25, relwidth=1)
+def main():
+    root = tk.Tk()
+    root.geometry("1400x600")
+    root.configure(bg='#2c313c')
 
-#Cancle Botton
-cancel_button = tk.Button(section3_row, text="Cancel")
-cancel_button.place(relx=0.81, relwidth=0.2, relheight=1)
+    main_frame = Frame(root, bg=state['BACKGROUND_COLOR'])
+    main_frame.pack(fill=BOTH, expand=1)
 
-#simulate Botton
-simulate_button = tk.Button(section3_row, text="Simulate")
-simulate_button.place(relx=0.605, relwidth=0.2, relheight=1)
+    row1 = tk.Frame(main_frame, bd=10, bg=state['BACKGROUND_COLOR'])
+    row1.place(relheight=0.1, relwidth=1)
+
+    # choose the algorithm
+    algorithm_label = tk.Label(row1, text='Choose Algorithm:', bg=state['BACKGROUND_COLOR'], fg='white')
+    algorithm_label.place(relx=0, rely=0, relheight=1, relwidth=0.2)
+    algorithm_input = ttk.Combobox(row1, values=ALGORITHMS, justify="center", font=ENTRY_FONT, state="readonly")
+    algorithm_input.bind("<<ComboboxSelected>>", None)
+    algorithm_input.place(relx=0.2, rely=0.2, relwidth=0.15, relheight=0.6)
+
+    # check if it's preemptive
+    isPreemptive = tk.BooleanVar()
+    preemptive_choice = tk.Checkbutton(row1, text='Preemptive', variable=isPreemptive, onvalue=True, offvalue=False)
+    preemptive_choice.place(relx=0.4, rely=0, relheight=1, relwidth=0.15)
+
+    # quantum time
+    quantum_label = tk.Label(row1, text='Quantum Time:', bg=state['BACKGROUND_COLOR'], fg='white')
+    quantum_label.place(relx=0.6, rely=0, relheight=1, relwidth=0.2)
+    quantum_input = tk.Entry(row1, borderwidth=4, justify="center", font=10, state="normal")
+    quantum_input.place(relx=0.8, rely=0.0, relheight=1, relwidth=0.1)
+
+    second_frame = Frame(main_frame, bd=10, bg='white')
+    second_frame.place(relx=0, rely=0.1, relwidth=1, relheight=0.6)
+
+    my_canvas = Canvas(second_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+    my_scrollbar = ttk.Scrollbar(second_frame, orient=VERTICAL, command=my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+
+    my_canvas.configure(yscrollcommand=my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+
+    inner_frame = Frame(my_canvas)
+    inner_frame.bind("<Configure>", lambda e: reset_scroll_region(my_canvas))
+
+    my_canvas.create_window((0, 0), window=inner_frame, anchor='nw')
+
+    add_process_button = tk.Button(main_frame, text="Add Process", command=lambda: add_process(inner_frame, state))
+    add_process_button.place(rely=0.71, relx=0.84, relwidth=0.15, relheight=0.1)
+
+    root.mainloop()
 
 
-
-wrapper1.pack(fill="x", expand="yes", padx=10, pady=10)
-wrapper2.pack(fill="both", expand="yes", padx=10, pady=10)
-wrapper3.pack(fill="both", expand="yes", padx=10, pady=10)
-
-root.mainloop()
+if __name__ == "__main__":
+    main()
