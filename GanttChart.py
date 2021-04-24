@@ -2,7 +2,6 @@ import os
 import sys
 import plotly
 
-import numpy as np
 import plotly.express as px
 import pandas as pd
 
@@ -44,8 +43,7 @@ def plot_schedule(dataframe):
 
     df_converted['hover'] = hovers
 
-    num_tick_labels = np.linspace(num=len(dataframe)*2, start=dataframe['Start'].min(),
-                                  stop=dataframe['Finish'].max(), dtype=int)
+    num_tick_labels = sorted(list(dataframe['Start']) + list(dataframe['Finish']))
 
     date_ticks = [convert_to_datetime(x) for x in num_tick_labels]
 
@@ -68,6 +66,8 @@ def convert_to_datetime(x):
 #     dict(Task="Job A", Start=0, Finish=5),
 #     dict(Task="Job B", Start=5, Finish=10),
 #     dict(Task="Job C", Start=10, Finish=12),
-#     dict(Task="Job D", Start=12, Finish=15)
+#     dict(Task="Job D", Start=12, Finish=15),
+#     dict(Task="Job C", Start=15, Finish=17.5),
+#     dict(Task="Job C", Start=20, Finish=25.5)
 # ])
 # plot_schedule(df)
