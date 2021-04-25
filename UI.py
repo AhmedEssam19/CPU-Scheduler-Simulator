@@ -73,9 +73,10 @@ def main():
     cancel_button.place(relx=0.81, rely=0.85, relwidth=0.2, relheight=0.12)
 
     # simulate Button
-    simulate_button = tk.Button(main_frame, text="Simulate",
+    simulate_button = tk.Button(main_frame, text="Simulate", state='disable',
                                 command=lambda: simulate(state, algorithm_input, quantum_input))
     simulate_button.place(relx=0.605, rely=0.85, relwidth=0.2, relheight=0.12)
+    state['simulate_button'] = simulate_button
 
     root.mainloop()
 
