@@ -95,6 +95,8 @@ def simulate(state, algorithms_combobox, quantum_input):
         # check valid arrival time
         try:
             arrival_time = float(process.arrival_time.get())
+            if arrival_time < 0:
+                raise ValueError
         except ValueError:
             tk.messagebox.showerror('Error', f'Invalid Arrival Time in process {i+1}')
             return
@@ -102,6 +104,8 @@ def simulate(state, algorithms_combobox, quantum_input):
         # check valid burst time
         try:
             burst_time = float(process.burst_time.get())
+            if burst_time <= 0:
+                raise ValueError
         except ValueError:
             tk.messagebox.showerror('Error', f'Invalid Burst Time in process {i+1}')
             return
@@ -138,6 +142,9 @@ def simulate(state, algorithms_combobox, quantum_input):
     else:
         try:
             quantum_time = float(quantum_input.get())
+            if quantum_time <= 0:
+                raise ValueError
+
         except ValueError:
             tk.messagebox.showerror('Error', 'Invalid Quantum Time')
             return
