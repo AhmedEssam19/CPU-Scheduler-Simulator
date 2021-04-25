@@ -74,9 +74,10 @@ def clear_processes(state):
                 label.destroy()
 
     state['row'] = 0
+    state['processes'] = []
 
 
-def simulate(state, algorithms_combobox, quantum_input, root):
+def simulate(state, algorithms_combobox, quantum_input):
     try:
         quantum_time = float(quantum_input.get())
     except ValueError:
@@ -107,4 +108,5 @@ def simulate(state, algorithms_combobox, quantum_input, root):
 
     else:
         time_intervals, avg_wait_time = first_come_first_served(processes)
+
     plot_schedule(time_intervals)

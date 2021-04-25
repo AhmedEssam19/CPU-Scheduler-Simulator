@@ -74,7 +74,7 @@ def main():
 
     # simulate Button
     simulate_button = tk.Button(main_frame, text="Simulate",
-                                command=lambda: simulate(state, algorithm_input, quantum_input, root))
+                                command=lambda: simulate(state, algorithm_input, quantum_input))
     simulate_button.place(relx=0.605, rely=0.85, relwidth=0.2, relheight=0.12)
 
     root.mainloop()
