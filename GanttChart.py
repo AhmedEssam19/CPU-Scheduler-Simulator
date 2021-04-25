@@ -3,7 +3,6 @@ import sys
 import plotly
 
 import plotly.express as px
-import pandas as pd
 
 from datetime import datetime
 from PyQt5 import QtWebEngineWidgets
@@ -54,7 +53,6 @@ def plot_schedule(dataframe):
         'ticktext': num_tick_labels
     })
     fig.update_yaxes(autorange="reversed")
-    print(fig['data'])
     PlotlyViewer(fig)
 
 

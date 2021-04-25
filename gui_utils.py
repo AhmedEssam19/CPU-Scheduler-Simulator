@@ -5,6 +5,7 @@ from collections import namedtuple
 from fcfs import first_come_first_served
 from SJF import Decide_Short_job
 from priority import Priority_Scheduling
+from round_robin import round_robin
 from GanttChart import plot_schedule
 
 Process = namedtuple('Process', 'task_name arrival_time burst_time priority')
@@ -141,6 +142,6 @@ def simulate(state, algorithms_combobox, quantum_input):
             tk.messagebox.showerror('Error', 'Invalid Quantum Time')
             return
 
-        time_intervals, avg_wait_time = first_come_first_served(processes)
+        time_intervals, avg_wait_time = round_robin(processes, quantum_time)
 
     plot_schedule(time_intervals)
