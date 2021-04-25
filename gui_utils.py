@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox
 
 from collections import namedtuple
 from fcfs import first_come_first_served
@@ -78,20 +79,38 @@ def clear_processes(state):
 
 
 def simulate(state, algorithms_combobox, quantum_input):
-    try:
-        quantum_time = float(quantum_input.get())
-    except ValueError:
-        pass
-
     processes = []
-    for process in state['processes']:
+    for i, process in enumerate(state['processes']):
+
+        # check valid task name
         task_name = process.task_name.get()
-        arrival_time = float(process.arrival_time.get())
-        burst_time = float(process.burst_time.get())
+        if task_name == "":
+            tk.messagebox.showinfo('Error', f'Invalid Task Name in process {i + 1}')
+            return
+
+        # check valid arrival time
+        try:
+            arrival_time = float(process.arrival_time.get())
+        except ValueError:
+            tk.messagebox.showinfo('Error', f'Invalid Arrival Time in process {i+1}')
+            return
+
+        # check valid burst time
+        try:
+            burst_time = float(process.burst_time.get())
+        except ValueError:
+            tk.messagebox.showinfo('Error', f'Invalid Burst Time in process {i+1}')
+            return
 
         process_element = [task_name, arrival_time, burst_time]
         if process.priority is not None:
-            priority = float(process.priority.get())
+            # check valid priority
+            try:
+                priority = float(process.priority.get())
+            except ValueError:
+                tk.messagebox.showinfo('Error', f'Invalid priority in process {i + 1}')
+                return
+
             process_element.append(priority)
 
         processes.append(process_element)
@@ -107,6 +126,12 @@ def simulate(state, algorithms_combobox, quantum_input):
         time_intervals, avg_wait_time = Priority_Scheduling(processes, state['isPreemptive'])
 
     else:
+        try:
+            quantum_time = float(quantum_input.get())
+        except ValueError:
+            tk.messagebox.showinfo('Error', 'Invalid Quantum Time')
+            return
+
         time_intervals, avg_wait_time = first_come_first_served(processes)
 
     plot_schedule(time_intervals)
