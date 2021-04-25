@@ -74,9 +74,13 @@ def main():
 
     # simulate Button
     simulate_button = tk.Button(main_frame, text="Simulate", state='disable',
-                                command=lambda: simulate(state, algorithm_input, quantum_input))
+                                command=lambda: simulate(state, algorithm_input, quantum_input, avg_time_label))
     simulate_button.place(relx=0.605, rely=0.85, relwidth=0.2, relheight=0.12)
     state['simulate_button'] = simulate_button
+
+    # output average waiting time
+    avg_time_label = Label(main_frame, text="Average Waiting Time = ")
+    avg_time_label.place(relx=0, rely=0.85, relwidth=0.2, relheight=0.12)
 
     root.mainloop()
 

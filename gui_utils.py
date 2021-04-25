@@ -81,7 +81,7 @@ def clear_processes(state):
     state['simulate_button']['state'] = 'disable'
 
 
-def simulate(state, algorithms_combobox, quantum_input):
+def simulate(state, algorithms_combobox, quantum_input, avg_time_label):
     task_names = []
     processes = []
     for i, process in enumerate(state['processes']):
@@ -151,4 +151,5 @@ def simulate(state, algorithms_combobox, quantum_input):
 
         time_intervals, avg_wait_time = round_robin(processes, quantum_time)
 
+    avg_time_label['text'] = "Average Waiting Time = {:.2f}".format(avg_wait_time)
     plot_schedule(time_intervals)
