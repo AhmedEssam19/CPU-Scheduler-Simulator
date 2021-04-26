@@ -16,6 +16,7 @@ state = {
 def main():
     root = tk.Tk()
     root.geometry("1450x600")
+    root.title('CPU Scheduler Simulator')
 
     # Make the main frame
     main_frame = Frame(root, bg=state['BACKGROUND_COLOR'])

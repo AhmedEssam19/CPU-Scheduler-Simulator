@@ -1,33 +1,17 @@
-import os
-import sys
-import plotly
+import io
 
 import plotly.express as px
+import plotly.io as pio
 
 from datetime import datetime
-from PyQt5 import QtWebEngineWidgets
-from PyQt5.QtCore import QUrl
-from PyQt5.QtWidgets import QApplication
+from PIL import Image
 
 
-class PlotlyViewer(QtWebEngineWidgets.QWebEngineView):
-    def __init__(self, fig, execute=True):
-        # Create a QApplication instance or use the existing one if it exists
-        self.app = QApplication.instance() if QApplication.instance() else QApplication(sys.argv)
-
-        super().__init__()
-
-        self.file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "temp.html"))
-        plotly.offline.plot(fig, filename=self.file_path, auto_open=False)
-        self.load(QUrl.fromLocalFile(self.file_path))
-        self.setWindowTitle("Plotly Viewer")
-        self.show()
-
-        if execute:
-            self.app.exec_()
-
-    def closeEvent(self, event):
-        os.remove(self.file_path)
+def show(fig):
+    buf = io.BytesIO()
+    pio.write_image(fig, buf)
+    img = Image.open(buf)
+    img.show()
 
 
 def plot_schedule(dataframe):
@@ -53,7 +37,7 @@ def plot_schedule(dataframe):
         'ticktext': num_tick_labels
     })
     fig.update_yaxes(autorange="reversed")
-    PlotlyViewer(fig)
+    show(fig)
 
 
 def convert_to_datetime(x):
