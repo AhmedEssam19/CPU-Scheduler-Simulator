@@ -134,10 +134,10 @@ def simulate(state, algorithms_combobox, quantum_input, avg_time_label):
         time_intervals, avg_wait_time = first_come_first_served(processes)
 
     elif algorithm == 'SJF':
-        time_intervals, avg_wait_time = Decide_Short_job(processes, state['isPreemptive'])
+        time_intervals, avg_wait_time = Decide_Short_job(processes, state['isPreemptive'].get())
 
     elif algorithm == 'Priority':
-        time_intervals, avg_wait_time = Priority_Scheduling(processes, state['isPreemptive'])
+        time_intervals, avg_wait_time = Priority_Scheduling(processes, state['isPreemptive'].get())
 
     else:
         try:
