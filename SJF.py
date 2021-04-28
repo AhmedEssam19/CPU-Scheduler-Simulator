@@ -106,7 +106,10 @@ def schedule_non_preemptive(processes):
 
         # if arrival time < current time
         else:
-            p = min(temp, key=lambda t: t[1])
+            # array of items which their arrival time between 0 to time
+
+            j2 = filter(lambda x: x[1] <= time, temp)
+            p = min(j2, key=lambda t: t[2])
             burst = p[2]
             # gap between the next arrival time and current time
             if time < p[1]:
