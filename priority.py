@@ -94,7 +94,7 @@ def schedule_non_preemptive(processes):
     # temporary list of lists to schedule the process according to their burst time except the first one
     temp = processes.copy()
     # current time
-    time = 0
+    time = min(processes, key=lambda t: t[1])[1]
     final_data = []
 
     # sorting according to burst time
